@@ -47,6 +47,7 @@ class Market:
     def update_actions(self):
         for action in self.actions.values():
             action[0].update_price()
+            action[0].update_level()
     
     def display(self):
         """

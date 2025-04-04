@@ -10,7 +10,7 @@ class Action :
         ID (int): The ID of the action.
         price (float): The price of the action.
         shares (int): The number of shares of the action.
-        level (int): The level of the action (1,2,3,4), the higher the level, the more chance to increase the price.
+        level (int): The level of the action (1,2,3,4), the higher the level, bigger the class volatility.
     
         
     """
@@ -20,21 +20,21 @@ class Action :
         self.ID = ID
         self.price = price
         self.shares = shares
-        self.level = level #the level of the action (1,2,3,4), the higher the level, the more chance to increase the price
+        self.level = level 
     
     def update_price(self):
         """
         This function updates the price of the action based on the level of the action.
-        The higher the level, the more chance to increase the price.
+        The higher the level, the bigger the class volatility.
         """
         
-
-        random_int = random.randint(1,4)
+        self.price *= 1 + (random.uniform(-0.05, 0.05) * self.level)
         
-        if random_int >= self.level:
-            self.price = self.price * (random.int(1,999) / 1000)
-        else:
-            self.price = self.price * (random.randint(1000,1500) / 1000)
+        # The price is updated by a random percentage between -5% and 5% multiplied by the level of the action.
+
+       
+        
+        
 
     def update_level(self):
         """
@@ -44,9 +44,11 @@ class Action :
         random_int = random.randint(1,2)
 
         if random_int == 1:
-            self.level = (self.level + 1) % 4
+            if(self.level != 4):
+                self.level += 1
         else:
-            self.level = (self.level - 1) % 4
+            if(self.level != 1):
+                self.level -= 1
         
     
 
