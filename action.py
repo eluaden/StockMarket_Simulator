@@ -1,5 +1,6 @@
 import random
 
+
 class Action :
     """
     This class represents an action in the game.

@@ -2,7 +2,6 @@ from action import Action
 import random
 
 
-
 class Market:
     """
     A class representing a stock market with a collection of actions (stocks).
@@ -13,6 +12,11 @@ class Market:
     """
 
     def __init__(self,size):
+        """
+        Initialize the Market with a specified number of actions.
+        Args:
+            size (int): The number of actions to generate in the market.
+        """
         self.actions = self.generate_actions(size)
 
     
