@@ -1,7 +1,5 @@
 from action import Action
 
-# User class to represent a user in the game
-# This class will manage the user's budget, wallet and actions
 
 class User:
     """
@@ -69,16 +67,17 @@ class User:
     
     def display_wallet(self):
         """Display the user's wallet."""
-        print(f"{self.name}'s Wallet:")
+        print(f"{self.name}'s Wallet:           {self.budget:.2f}R$")
         print("=====================================")
-        print("ID |Name | Price | Level | Total shares | Available shares")
+        print("ID |Name | Price | Level | Total shares | Your shares")
         print("=====================================")
+        if not self.wallet:
+            print("No actions in the wallet.")
         for action in self.wallet.values():
             action_obj = action[0]
             shares = action[1]
             print(f"#000{action_obj.ID} | {action_obj.name} | {action_obj.price:.2f}R$ | {action_obj.level} | {action_obj.shares} | {shares}")
 
-        print (f"Budget: {self.budget:.2f}")
 
     
         
