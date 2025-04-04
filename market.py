@@ -26,22 +26,21 @@ class Market:
         Args:
             size (int): The number of actions to generate.
         Returns:
-            dict: A dictionary with action IDs as keys and a list containing the action object and its shares as values.
+            dict: A dictionary with action tickers as keys and a list containing the action object and its shares as values.
         """
 
         # Dictionary to store actions and their ammount in the market Example: {action_name: [action_obj, amount]}
         actions = {}
 
         for i in range(size):
-            action_name = f"Action {i}"
-            action_ID = i
+            
             action_price = random.uniform(1, 100)
             action_shares = random.randint(50000, 10000000)
             action_level = random.randint(1, 4)
-            action_obj = Action(action_name, action_ID,
-                                action_price, action_shares, action_level)
+            action_obj = Action(action_price, action_shares, action_level)
+
             # Store the action object and its shares in the dictionary
-            actions[action_ID] = [action_obj, action_shares]
+            actions[action_obj.ticker] = [action_obj, action_shares]
 
         return actions
 
@@ -62,46 +61,46 @@ class Market:
         for action in self.actions.values():
             action_obj = action[0]
             shares = action[1]
-            print(f"{f'#{action_obj.ID:04d}':<6} | {action_obj.name:<10} | " +
+            print(f"{f'#{action_obj.ticker}':<6} | {action_obj.name:<10} | " +
                   f"{f'R$ {action_obj.price:.2f}':<10} | {action_obj.level:<10} | " +
                   f"{action_obj.shares:<13} | {shares:<17}")
 
-    def market_buy(self, action_id, shares):
+    def market_buy(self, action_ticker, shares):
         """
         Represents the market buying an action.
         Args:
-            action_id (int): The ID of the action to buy.
+            action_ticker (int): The ticker of the action to buy.
             shares (int): The number of shares to buy.
         Raises:
                 ValueError: If the market does not have enough shares to sell.
 
         """
-        if action_id in self.actions:
-            if shares >= self.actions[action_id][0].shares:
+        if action_ticker in self.actions:
+            if shares >= self.actions[action_ticker][0].shares:
                 raise ValueError(
                     "Market will have more shares than the action has to sell")
             else:
-                self.actions[action_id][1] += shares
+                self.actions[action_ticker][1] += shares
         else:
             raise ValueError("Action not found in the market")
 
-    def market_sell(self, action_id, shares):
+    def market_sell(self, action_ticker, shares):
         """
         Represents the market selling an action.
         Args:
-            action_id (int): The ID of the action to sell.
+            action_ticker (int): The ticker of the action to sell.
             shares (int): The number of shares to sell.
         Raises:
             ValueError: If the market does not have enough shares to sell.
         Returns:
             Action: the action that will be acquired by the user
         """
-        if action_id in self.actions:
-            if shares >= self.actions[action_id][1]:
+        if action_ticker in self.actions:
+            if shares >= self.actions[action_ticker][1]:
                 raise ValueError("Market dont have enough shares to sell")
             else:
-                self.actions[action_id][1] -= shares
+                self.actions[action_ticker][1] -= shares
         else:
             raise ValueError("Action not found in the market")
 
-        return self.actions[action_id][0]
+        return self.actions[action_ticker][0]
