@@ -78,7 +78,7 @@ class GameManager:
 
         if action_choice == 'b':
             # Receive the action ID and amount from the user
-            action_id = int(input("Enter the action ID you want to buy: "))
+            action_id = input("Enter the action ID you want to buy: ")
             amount = int(input("Enter the amount you want to buy: "))
             try:
                 action = self.market.market_sell(action_id, amount)
@@ -88,7 +88,7 @@ class GameManager:
 
         elif action_choice == 's':
             # Receive the action ID and amount from the user
-            action_id = int(input("Enter the action ID you want to sell: "))
+            action_id = input("Enter the action ID you want to sell: ")
             amount = int(input("Enter the amount you want to sell: "))
             try:
                 self.user.sell(action_id, amount)

@@ -75,7 +75,7 @@ class Market:
                 ValueError: If the market does not have enough shares to sell.
 
         """
-        if action_ticker in self.actions:
+        if action_ticker in self.actions.values():
             if shares >= self.actions[action_ticker][0].shares:
                 raise ValueError(
                     "Market will have more shares than the action has to sell")
