@@ -16,7 +16,7 @@ class User:
     def __init__(self, name, budget):
         self.name = name
         self.budget = budget
-        # Dictionary to hold items and their amounts Example: {ID: [item, amount]}
+        # Dictionary to hold items and their amounts Example: {ticker: [item, amount]}
         self.wallet = {}
 
     def buy(self, item: Action, amount):
@@ -35,36 +35,36 @@ class User:
         self.budget -= item.price * amount
         # Update the wallet
 
-        if item.ID in self.wallet:
-            self.wallet[item.ID][1] += amount
+        if item.ticker in self.wallet:
+            self.wallet[item.ticker][1] += amount
         else:
-            self.wallet[item.ID] = [item, amount]
+            self.wallet[item.ticker] = [item, amount]
 
         print(f"Bought {amount} of {item.name}.")
 
-    def sell(self, ID, amount):
+    def sell(self, ticker, amount):
         """Sell an item from the wallet.
         Args:
-            ID (int): The ID of the item to sell.
+            ticker (int): The ticker of the item to sell.
             amount (int): The amount of the item to sell.
         Raises:
             ValueError: If the user doesn't own the item or doesn't have enough amount to sell.        
         """
 
-        if ID not in self.wallet:
-            raise ValueError(f"You don't own {ID}.")
-        if self.wallet[ID][1] < amount:
+        if ticker not in self.wallet:
+            raise ValueError(f"You don't own {ticker}.")
+        if self.wallet[ticker][1] < amount:
             raise ValueError(
-                f"You don't have enough {self.wallet[ID][0].name} to sell.")
+                f"You don't have enough {self.wallet[ticker][0].name} to sell.")
 
-        self.wallet[ID][1] -= amount
-        self.budget += self.wallet[ID][0].price * amount
+        self.wallet[ticker][1] -= amount
+        self.budget += self.wallet[ticker][0].price * amount
 
         print(
-            f"Sold {amount} of {self.wallet[ID][0].name} for {self.wallet[ID][0].price * amount:.2f}.")
+            f"Sold {amount} of {self.wallet[ticker][0].name} for {self.wallet[ticker][0].price * amount:.2f}.")
 
-        if self.wallet[ID][1] == 0:
-            del self.wallet[ID]
+        if self.wallet[ticker][1] == 0:
+            del self.wallet[ticker]
 
     def display_wallet(self):
         """Display the user's wallet."""
@@ -78,6 +78,6 @@ class User:
         for action in self.wallet.values():
             action_obj = action[0]
             shares = action[1]
-            print(f"{f'#{action_obj.ID:04d}':<6} | {action_obj.name:<10} | " +
+            print(f"{f'#{action_obj.ticker}':<6} | {action_obj.name:<10} | " +
                   f"{f'R$ {action_obj.price:.2f}':<10} | {action_obj.level:<10} | " +
                   f"{action_obj.shares:<13} | {shares:<17}")

@@ -1,5 +1,6 @@
 import random
-
+from action_traits import ActionTraits
+from name_generator import NameGenerator
 
 class Action:
     """
@@ -7,7 +8,7 @@ class Action:
 
     Attributes:
         name (str): The name of the action.
-        ID (int): The ID of the action.
+        ticker (int): The ticker of the action.
         price (float): The price of the action.
         shares (int): The number of shares of the action.
         level (int): The level of the action (1,2,3,4), the higher the level, bigger the class volatility.
@@ -15,12 +16,13 @@ class Action:
 
     """
 
-    def __init__(self, name, ID, price, shares, level):
-        self.name = name
-        self.ID = ID
+    def __init__(self, price, shares, level):
         self.price = price
         self.shares = shares
         self.level = level
+        self.traits = ActionTraits() # randomly generated traits
+        self.name = NameGenerator.generate_name(self.traits.major_sector)
+        self.ticker = NameGenerator.action_ticker(self.name)
 
     def update_price(self):
         """
