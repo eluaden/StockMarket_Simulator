@@ -89,8 +89,10 @@ class Sector():
         if self.major_sector is None or  type(self.major_sector) is not MarketSectors:
             self.major_sector = choice(list(MarketSectors))
         if self.minor_sector is None or type(self.minor_sector) is not MarketSectors:
-            self.minor_sector = choice(list(MarketSectors))
+            self.minor_sector = choice(list(self.major_sector.value))
         if self.company_size is None or type(self.company_size) is not CompanySize:
             self.company_size = choice(list(CompanySize))
+
+            
 
     
