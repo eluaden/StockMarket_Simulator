@@ -24,7 +24,8 @@ class Market:
         """
         self.actions = self.generate_actions(size)
         self.time_manager = TimeManager(
-            datetime.time(10, 0), datetime.time(18, 0))
+            datetime.time(10, 0), datetime.time(17, 0)
+        )
 
     def generate_actions(self, size):
         """
@@ -61,9 +62,9 @@ class Market:
 
         return actions
 
-    def update_actions(self):
+    def update_actions(self, delta_minutes: int):
         for action in self.actions.values():
-            action[0].update_price()
+            action[0].update_price(delta_minutes)
             action[0].update_level()
 
     def display(self):

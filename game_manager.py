@@ -1,4 +1,5 @@
 import os  # temporario enquanto nao temos a interface de terminal
+from datetime import time
 from market import Market
 from time_manager import TimeManager
 from user import User
@@ -26,7 +27,8 @@ class GameManager:
         # Adjust budget based on difficulty
         self.user = User(username, 1000 - (self.difficulty * 200))
 
-        self.time_manager = TimeManager()
+        self.time_manager = TimeManager(
+            time(hour=10, minute=0), time(hour=17, minute=0))
 
     def choose_difficulty(self):
         """
@@ -52,11 +54,7 @@ class GameManager:
             os.system('cls' if os.name == 'nt' else 'clear')
             self.display_menu()
 
-            action_choice = self.handle_action()
-
-            # update the market actions
-            if action_choice in ['m', 'h', 'd', 'b', 's']:
-                self.market.update_actions()
+            self.handle_action()
 
             # check the game state
             self.check_game_state()
@@ -89,6 +87,7 @@ class GameManager:
             try:
                 action = self.market.market_sell(action_id, amount)
                 self.user.buy(action, amount)
+                self.market.update_actions(1)
             except Exception as e:
                 print(f"Error: {e}")
 
@@ -99,26 +98,28 @@ class GameManager:
             try:
                 self.user.sell(action_id, amount)
                 self.market.market_buy(action_id, amount)
+                self.market.update_actions(1)
             except Exception as e:
                 print(f"Error: {e}")
 
         elif action_choice == 'm':
             # Advance the time by one minute
             self.market.time_manager.advance_minute()
+            self.market.update_actions(1)
 
         elif action_choice == 'h':
             # Advance the time by one hour
             self.market.time_manager.advance_hour()
+            self.market.update_actions(60)
 
         elif action_choice == 'd':
             # Advance the time by one day
             self.market.time_manager.advance_day()
+            self.market.update_actions(60 * 12)
 
         elif action_choice == 'q':
             self.game_state = "quit"
             print("Thanks for playing!")
-
-        return action_choice
 
     # os prints abaixo devem ser feitos pelo terminal_interface, aqui é provisório apenas
 

@@ -31,8 +31,8 @@ class TimeManager:
         self.open_time = open_time
         self.close_time = close_time
         self.time = datetime.datetime.now()  # Initialize with the current date and time
-        self.time.second = 0  # Set seconds to zero for simplicity
-        self.time.microsecond = 0  # Set microseconds to zero for simplicity
+        if not self.is_market_open():
+            self.advance_day()
 
     def advance_minute(self):
         """Advance the time by one minute."""
