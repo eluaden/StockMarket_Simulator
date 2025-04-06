@@ -1,5 +1,7 @@
 import random
 from action import Action
+from action_traits import ActionTraits
+from name_generator import NameGenerator
 from display_utils import header, separator
 
 
@@ -37,7 +39,16 @@ class Market:
             action_price = random.uniform(1, 100)
             action_shares = random.randint(50000, 10000000)
             action_level = random.randint(1, 4)
-            action_obj = Action(action_price, action_shares, action_level)
+            action_traits = ActionTraits()
+            
+            #generate a name without repeating it
+            while True:
+                action_name = NameGenerator.generate_name(action_traits.major_sector)
+                action_ticker = NameGenerator.action_ticker(action_name)
+                if action_ticker not in actions:
+                    break
+
+            action_obj = Action(action_name, action_ticker,action_traits ,action_price, action_shares, action_level)
 
             # Store the action object and its shares in the dictionary
             actions[action_obj.ticker] = [action_obj, action_shares]
