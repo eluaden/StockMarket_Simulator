@@ -1,5 +1,6 @@
 import os  # temporario enquanto nao temos a interface de terminal
 from market import Market
+from time_manager import TimeManager
 from user import User
 from display_utils import separator
 
@@ -21,8 +22,11 @@ class GameManager:
         self.market = Market(20 - (self.difficulty * 5))
 
         username = input("Enter your name: ")
+
         # Adjust budget based on difficulty
         self.user = User(username, 1000 - (self.difficulty * 200))
+
+        self.time_manager = TimeManager()
 
     def choose_difficulty(self):
         """
@@ -48,10 +52,11 @@ class GameManager:
             os.system('cls' if os.name == 'nt' else 'clear')
             self.display_menu()
 
-            self.handle_action()
+            action_choice = self.handle_action()
 
             # update the market actions
-            self.market.update_actions()
+            if action_choice in ['m', 'h', 'd', 'b', 's']:
+                self.market.update_actions()
 
             # check the game state
             self.check_game_state()
@@ -68,7 +73,8 @@ class GameManager:
         print(f"\n{separator}\n")
         self.user.display_wallet()
         print(f"\n{separator}")
-        print("Press b to buy, s to sell, q to quit\n\n")
+        print("""Press m to advance one minute, h to advance one hour, d to advance one day,
+      b to buy, s to sell, q to quit\n\n""")
 
     def handle_action(self):
         """
@@ -96,9 +102,23 @@ class GameManager:
             except Exception as e:
                 print(f"Error: {e}")
 
+        elif action_choice == 'm':
+            # Advance the time by one minute
+            self.market.time_manager.advance_minute()
+
+        elif action_choice == 'h':
+            # Advance the time by one hour
+            self.market.time_manager.advance_hour()
+
+        elif action_choice == 'd':
+            # Advance the time by one day
+            self.market.time_manager.advance_day()
+
         elif action_choice == 'q':
             self.game_state = "quit"
             print("Thanks for playing!")
+
+        return action_choice
 
     # os prints abaixo devem ser feitos pelo terminal_interface, aqui é provisório apenas
 
