@@ -143,6 +143,7 @@ class Market:
             for action in self.actions.values():
                 action_obj = action[0]
                 if action_obj.sector.minor_sector == minor_sector[0]:
+                    print(action_obj.name)
                     if minor_sector[1] == "up":
                         action_obj.price *= 1.05
                     else:
