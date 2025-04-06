@@ -1,5 +1,5 @@
 from enum import Enum
-from action_traits import *
+from market_sector import MarketSectors
 from random import choice, randint
 
 
@@ -61,6 +61,10 @@ class NameGenerator:
     def generate_name(major_sector):
         """
         Generate a random company name based on the major and minor sectors.
+        Args:
+            major_sector (str): The major sector of the company.
+        Returns:
+            str: A randomly generated company name.
         """
         
         if major_sector not in NameGenerator.sector_names:

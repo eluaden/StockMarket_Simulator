@@ -1,6 +1,5 @@
 import random
-from action_traits import ActionTraits
-from name_generator import NameGenerator
+
 
 class Action:
     """
@@ -11,18 +10,21 @@ class Action:
         ticker (int): The ticker of the action.
         price (float): The price of the action.
         shares (int): The number of shares of the action.
-        level (int): The level of the action (1,2,3,4), the higher the level, bigger the class volatility.
+        level (int): The level of the action (1, 2, 3, 4).
+        The higher the level, bigger the class volatility.
 
 
     """
 
-    def __init__(self, price, shares, level):
+    def __init__(self, name: str, ticker: int, sector: float, price: float, shares: int, level: int):
+        self.name = name
+        self.ticker = ticker
+        self.sector = sector  # randomly generated traits
         self.price = price
         self.shares = shares
         self.level = level
-        self.traits = ActionTraits() # randomly generated traits
-        self.name = NameGenerator.generate_name(self.traits.major_sector)
-        self.ticker = NameGenerator.action_ticker(self.name)
+        self.base_price = price
+
 
     def __iter__(self):
         """
@@ -32,15 +34,18 @@ class Action:
         return iter((self.ticker, self.name, self.price, self.level, self.shares,))
         # This function returns an iterator for the Action object.
 
-    def update_price(self):
+
+    def update_price(self, delta_minutes):
+
         """
         This function updates the price of the action based on the level of the action.
         The higher the level, the bigger the class volatility.
         """
 
-        self.price *= 1 + (random.uniform(-0.05, 0.05) * self.level)
-
-        # The price is updated by a random percentage between -5% and 5% multiplied by the level of the action.
+        for _ in range(delta_minutes):
+            price_corrector = (self.base_price - self.price) / self.base_price
+            self.price *= 1 + random.normalvariate(0, 0.005 * self.level)
+            self.price *= 1 + 0.01 * price_corrector
 
     def update_level(self):
         """
@@ -50,8 +55,8 @@ class Action:
         random_int = random.randint(1, 2)
 
         if random_int == 1:
-            if (self.level != 4):
+            if self.level != 4:
                 self.level += 1
         else:
-            if (self.level != 1):
+            if self.level != 1:
                 self.level -= 1

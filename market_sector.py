@@ -74,23 +74,25 @@ class MarketSectors(Enum):
     TRANSPORTATION = Transportation
     REAL_ESTATE = RealEstate
 
-class ActionTraits():
-    """contains the traits of the action"""
+class Sector():
+    """contains the sector of the action"""
 
     def __init__(self, major_sector=None,minor_sector = None ,company_size=None):
         self.major_sector = major_sector
         self.minor_sector = minor_sector
         self.company_size = company_size
-        self.generate_random_traits()
+        self.generate_random_sector()
         
-
-    def generate_random_traits(self):
-        """generate random traits for the action"""
+    
+    def generate_random_sector(self):
+        """generate random sector for the action"""
         if self.major_sector is None or  type(self.major_sector) is not MarketSectors:
             self.major_sector = choice(list(MarketSectors))
         if self.minor_sector is None or type(self.minor_sector) is not MarketSectors:
-            self.minor_sector = choice(list(MarketSectors))
+            self.minor_sector = choice(list(self.major_sector.value))
         if self.company_size is None or type(self.company_size) is not CompanySize:
             self.company_size = choice(list(CompanySize))
+
+            
 
     
