@@ -1,5 +1,5 @@
 import random
-from action_traits import ActionTraits
+from market_sector import Sector
 from name_generator import NameGenerator
 
 
@@ -17,13 +17,13 @@ class Action:
 
     """
 
-    def __init__(self, price, shares, level):
+    def __init__(self,name,ticker,sector, price, shares, level):
+        self.name = name
+        self.ticker = ticker
+        self.sector = sector  # randomly generated traits
         self.price = price
         self.shares = shares
         self.level = level
-        self.traits = ActionTraits()  # randomly generated traits
-        self.name = NameGenerator.generate_name(self.traits.major_sector)
-        self.ticker = NameGenerator.action_ticker(self.name)
 
     def update_price(self):
         """
