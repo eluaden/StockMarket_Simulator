@@ -1,6 +1,7 @@
 import random
 from action import Action
 from display_utils import header, separator
+from time_manager import TimeManager
 
 
 class Market:
@@ -19,6 +20,7 @@ class Market:
             size (int): The number of actions to generate in the market.
         """
         self.actions = self.generate_actions(size)
+        self.time_manager = TimeManager()
 
     def generate_actions(self, size):
         """
@@ -32,8 +34,8 @@ class Market:
         # Dictionary to store actions and their ammount in the market Example: {action_name: [action_obj, amount]}
         actions = {}
 
-        for i in range(size):
-            
+        for _ in range(size):
+
             action_price = random.uniform(1, 100)
             action_shares = random.randint(50000, 10000000)
             action_level = random.randint(1, 4)
@@ -54,7 +56,7 @@ class Market:
         Display the actions in the market.  
         """
 
-        print("Actions in Market:")
+        print(f"Actions in Market: {self.time_manager.get_formatted_time()}")
         print(separator)
         print(header)
         print(separator)
@@ -79,8 +81,7 @@ class Market:
             if shares >= self.actions[action_ticker][0].shares:
                 raise ValueError(
                     "Market will have more shares than the action has to sell")
-            else:
-                self.actions[action_ticker][1] += shares
+            self.actions[action_ticker][1] += shares
         else:
             raise ValueError("Action not found in the market")
 
@@ -97,9 +98,8 @@ class Market:
         """
         if action_ticker in self.actions:
             if shares >= self.actions[action_ticker][1]:
-                raise ValueError("Market dont have enough shares to sell")
-            else:
-                self.actions[action_ticker][1] -= shares
+                raise ValueError("Market doesn't have enough shares to sell")
+            self.actions[action_ticker][1] -= shares
         else:
             raise ValueError("Action not found in the market")
 

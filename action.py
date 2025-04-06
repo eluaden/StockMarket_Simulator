@@ -2,6 +2,7 @@ import random
 from action_traits import ActionTraits
 from name_generator import NameGenerator
 
+
 class Action:
     """
     This class represents an action in the game.
@@ -20,7 +21,7 @@ class Action:
         self.price = price
         self.shares = shares
         self.level = level
-        self.traits = ActionTraits() # randomly generated traits
+        self.traits = ActionTraits()  # randomly generated traits
         self.name = NameGenerator.generate_name(self.traits.major_sector)
         self.ticker = NameGenerator.action_ticker(self.name)
 
