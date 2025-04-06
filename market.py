@@ -7,6 +7,7 @@ from display_utils import header, separator
 from time_manager import TimeManager
 
 
+
 class Market:
     """
     A class representing a stock market with a collection of actions (stocks).
@@ -67,6 +68,10 @@ class Market:
             action[0].update_price(delta_minutes)
             action[0].update_level()
 
+
+    def get_market(self):
+        return self.actions
+
     def display(self):
         """
         Display the actions in the market.  
@@ -82,6 +87,7 @@ class Market:
             print(f"{f'#{action_obj.ticker}':<6} | {action_obj.name:<10} | " +
                   f"{f'R$ {action_obj.price:.2f}':<10} | {action_obj.level:<10} | " +
                   f"{action_obj.shares:<13} | {shares:<17}")
+
 
     def market_buy(self, action_ticker, shares):
         """

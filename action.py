@@ -25,7 +25,18 @@ class Action:
         self.level = level
         self.base_price = price
 
+
+    def __iter__(self):
+        """
+        This function allows the Action object to be iterable.
+        """
+
+        return iter((self.ticker, self.name, self.price, self.level, self.shares,))
+        # This function returns an iterator for the Action object.
+
+
     def update_price(self, delta_minutes):
+
         """
         This function updates the price of the action based on the level of the action.
         The higher the level, the bigger the class volatility.

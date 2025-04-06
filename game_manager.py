@@ -3,8 +3,10 @@ from datetime import time
 from market import Market
 from time_manager import TimeManager
 from user import User
-from display_utils import separator
+import display_utils as dp
+from menu_controler import MenuPage
 from news_manager import NewsManager
+
 
 
 class GameManager:
@@ -68,16 +70,17 @@ class GameManager:
 
     def display_menu(self):
         """
-        Display the game menu.
+        Display current menu
         """
         print("THE ULTIMATE STOCK MARKET SIMULATOR")
-        print(separator)
-        self.market.display()
-        print(f"\n{separator}\n")
-        self.user.display_wallet()
-        print(f"\n{separator}")
+
+        dp.display_table(self.market.get_market(), "market")
+        print(f"\n{dp.separator}\n")
+        dp.display_table(self.user.wallet, "wallet")
+        print(f"\n{dp.separator}")
         print("""Press m to advance one minute, h to advance one hour, d to advance one day,
       b to buy, s to sell, q to quit\n\n""")
+
 
     def handle_action(self):
         """
