@@ -1,6 +1,6 @@
 import random
 from action import Action
-from display_utils import header, separator
+# from display_utils import header, separator
 
 
 class Market:
@@ -49,21 +49,24 @@ class Market:
             action[0].update_price()
             action[0].update_level()
 
-    def display(self):
-        """
-        Display the actions in the market.  
-        """
+    def get_market(self):
+        return self.actions
+    
+    # def display(self):
+    #     """
+    #     Display the actions in the market.  
+    #     """
 
-        print("Actions in Market:")
-        print(separator)
-        print(header)
-        print(separator)
-        for action in self.actions.values():
-            action_obj = action[0]
-            shares = action[1]
-            print(f"{f'#{action_obj.ticker}':<6} | {action_obj.name:<10} | " +
-                  f"{f'R$ {action_obj.price:.2f}':<10} | {action_obj.level:<10} | " +
-                  f"{action_obj.shares:<13} | {shares:<17}")
+    #     print("Actions in Market:")
+    #     print(separator)
+    #     print(header)
+    #     print(separator)
+    #     for action in self.actions.values():
+    #         action_obj = action[0]
+    #         shares = action[1]
+    #         print(f"{f'#{action_obj.ticker}':<6} | {action_obj.name:<10} | " +
+    #               f"{f'R$ {action_obj.price:.2f}':<10} | {action_obj.level:<10} | " +
+    #               f"{action_obj.shares:<13} | {shares:<17}")
 
     def market_buy(self, action_ticker, shares):
         """

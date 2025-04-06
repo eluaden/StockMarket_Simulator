@@ -24,6 +24,14 @@ class Action:
         self.name = NameGenerator.generate_name(self.traits.major_sector)
         self.ticker = NameGenerator.action_ticker(self.name)
 
+    def __iter__(self):
+        """
+        This function allows the Action object to be iterable.
+        """
+
+        return iter((self.ticker, self.name, self.price, self.level, self.shares,))
+        # This function returns an iterator for the Action object.
+
     def update_price(self):
         """
         This function updates the price of the action based on the level of the action.

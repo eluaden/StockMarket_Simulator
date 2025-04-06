@@ -1,5 +1,4 @@
 from action import Action
-from display_utils import header, separator
 
 
 class User:
@@ -68,6 +67,12 @@ class User:
 
     def display_wallet(self):
         """Display the user's wallet."""
+
+
+        separator = "=" * 60
+        header = f"{'Ticker':<6} | {'Name':<10} | {'Price':<10} | {'Level':<10} | {'Shares':<13} | {'Amount':<17}"
+
+        # Display the wallet
 
         print(f"{self.name}'s Wallet:           R$ {self.budget:.2f}")
         print(separator)

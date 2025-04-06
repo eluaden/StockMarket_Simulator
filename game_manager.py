@@ -1,7 +1,8 @@
 import os  # temporario enquanto nao temos a interface de terminal
 from market import Market
 from user import User
-from display_utils import separator
+import display_utils as dp
+from menu_controler import MenuPage
 
 
 class GameManager:
@@ -60,14 +61,13 @@ class GameManager:
 
     def display_menu(self):
         """
-        Display the game menu.
+        Display current menu
         """
         print("THE ULTIMATE STOCK MARKET SIMULATOR")
-        print(separator)
-        self.market.display()
-        print(f"\n{separator}\n")
-        self.user.display_wallet()
-        print(f"\n{separator}")
+        dp.display_table(self.market.get_market(), "market")
+        print(f"\n{dp.separator}\n")
+        dp.display_table(self.user.wallet, "wallet")
+        print(f"\n{dp.separator}")
         print("Press b to buy, s to sell, q to quit\n\n")
 
     def handle_action(self):
