@@ -1,7 +1,7 @@
 import random
 import datetime
 from action import Action
-from market_sector import Sector
+from market_sector import *
 from name_generator import NameGenerator
 from display_utils import header, separator
 from time_manager import TimeManager
@@ -120,3 +120,30 @@ class Market:
             raise ValueError("Action not found in the market")
 
         return self.actions[action_ticker][0]
+    
+    def daily_news_impact(self, news_sector):
+        """
+        Apply the daily news impact on the market.
+        Args:
+            news (str): The news that will impact the market.
+        """
+        
+        major_sector = news_sector[0]
+        minor_sectors = news_sector[1:]
+
+        for action in self.actions.values():
+            action_obj = action[0]
+            if action_obj.sector.major_sector == major_sector[0]:
+                if major_sector[1] == "up":
+                    action_obj.price *= 1.1
+                else:
+                    action_obj.price *= 0.9
+
+        for minor_sector in minor_sectors:
+            for action in self.actions.values():
+                action_obj = action[0]
+                if action_obj.sector.minor_sector == minor_sector[0]:
+                    if minor_sector[1] == "up":
+                        action_obj.price *= 1.05
+                    else:
+                        action_obj.price *= 0.95      
