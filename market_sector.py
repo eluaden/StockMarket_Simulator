@@ -83,7 +83,7 @@ class Sector():
         self.company_size = company_size
         self.generate_random_sector()
         
-
+    
     def generate_random_sector(self):
         """generate random sector for the action"""
         if self.major_sector is None or  type(self.major_sector) is not MarketSectors:

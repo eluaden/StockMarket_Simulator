@@ -3,6 +3,7 @@ from market import Market
 from time_manager import TimeManager
 from user import User
 from display_utils import separator
+from news_manager import NewsManager
 
 
 class GameManager:
@@ -28,6 +29,8 @@ class GameManager:
 
         self.time_manager = TimeManager()
 
+        self.news_manager = NewsManager()
+
     def choose_difficulty(self):
         """
         Choose the difficulty level of the game.
@@ -51,12 +54,14 @@ class GameManager:
             # Clear the console for better readability
             os.system('cls' if os.name == 'nt' else 'clear')
             self.display_menu()
+            self.news()
 
             action_choice = self.handle_action()
 
             # update the market actions
             if action_choice in ['m', 'h', 'd', 'b', 's']:
                 self.market.update_actions()
+
 
             # check the game state
             self.check_game_state()
@@ -143,3 +148,14 @@ class GameManager:
                 if self.user.budget >= 2000:
                     self.game_state = "victory"
                     print("Congratulations! You have achieved financial security!")
+
+    def news(self):
+        """
+        Display the news for the current time.
+        """
+        print(separator)
+        news = self.news_manager.update_news()
+        self.news_manager.display_news()
+        self.market.daily_news_impact(news)
+
+
