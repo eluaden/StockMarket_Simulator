@@ -1,4 +1,5 @@
 import random
+import datetime
 from action import Action
 from market_sector import Sector
 from name_generator import NameGenerator
@@ -22,7 +23,9 @@ class Market:
             size (int): The number of actions to generate in the market.
         """
         self.actions = self.generate_actions(size)
-        self.time_manager = TimeManager()
+        self.time_manager = TimeManager(
+            datetime.time(10, 0), datetime.time(17, 0)
+        )
 
     def generate_actions(self, size):
         """
@@ -42,24 +45,26 @@ class Market:
             action_shares = random.randint(50000, 10000000)
             action_level = random.randint(1, 4)
             action_sector = Sector()
-            
-            #generate a name without repeating it
+
+            # generate a name without repeating it
             while True:
-                action_name = NameGenerator.generate_name(action_sector.major_sector)
+                action_name = NameGenerator.generate_name(
+                    action_sector.major_sector)
                 action_ticker = NameGenerator.action_ticker(action_name)
                 if action_ticker not in actions:
                     break
 
-            action_obj = Action(action_name, action_ticker,action_sector ,action_price, action_shares, action_level)
+            action_obj = Action(action_name, action_ticker, action_sector,
+                                action_price, action_shares, action_level)
 
             # Store the action object and its shares in the dictionary
             actions[action_obj.ticker] = [action_obj, action_shares]
 
         return actions
 
-    def update_actions(self):
+    def update_actions(self, delta_minutes: int):
         for action in self.actions.values():
-            action[0].update_price()
+            action[0].update_price(delta_minutes)
             action[0].update_level()
 
     def display(self):
