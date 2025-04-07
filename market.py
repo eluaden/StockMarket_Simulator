@@ -3,9 +3,7 @@ import datetime
 from action import Action
 from market_sector import *
 from name_generator import NameGenerator
-from display_utils import header, separator
 from time_manager import TimeManager
-
 
 
 class Market:
@@ -68,26 +66,8 @@ class Market:
             action[0].update_price(delta_minutes)
             action[0].update_level()
 
-
     def get_market(self):
         return self.actions
-
-    def display(self):
-        """
-        Display the actions in the market.  
-        """
-
-        print(f"Actions in Market: {self.time_manager.get_formatted_time()}")
-        print(separator)
-        print(header)
-        print(separator)
-        for action in self.actions.values():
-            action_obj = action[0]
-            shares = action[1]
-            print(f"{f'#{action_obj.ticker}':<6} | {action_obj.name:<10} | " +
-                  f"{f'R$ {action_obj.price:.2f}':<10} | {action_obj.level:<10} | " +
-                  f"{action_obj.shares:<13} | {shares:<17}")
-
 
     def market_buy(self, action_ticker, shares):
         """
@@ -126,14 +106,14 @@ class Market:
             raise ValueError("Action not found in the market")
 
         return self.actions[action_ticker][0]
-    
+
     def daily_news_impact(self, news_sector):
         """
         Apply the daily news impact on the market.
         Args:
             news (str): The news that will impact the market.
         """
-        
+
         major_sector = news_sector[0]
         minor_sectors = news_sector[1:]
 
@@ -152,4 +132,4 @@ class Market:
                     if minor_sector[1] == "up":
                         action_obj.price *= 1.05
                     else:
-                        action_obj.price *= 0.95      
+                        action_obj.price *= 0.95

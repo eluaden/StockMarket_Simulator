@@ -8,7 +8,6 @@ from menu_controler import MenuPage
 from news_manager import NewsManager
 
 
-
 class GameManager:
     """
     GameManager class to manage the game state and interactions.
@@ -62,7 +61,6 @@ class GameManager:
 
             self.handle_action()
 
-
             # check the game state
             self.check_game_state()
 
@@ -80,7 +78,6 @@ class GameManager:
         print(f"\n{dp.separator}")
         print("""Press m to advance one minute, h to advance one hour, d to advance one day,
       b to buy, s to sell, q to quit\n\n""")
-
 
     def handle_action(self):
         """
@@ -157,9 +154,7 @@ class GameManager:
         """
         Display the news for the current time.
         """
-        print(separator)
+        print("=" * 50)
         news = self.news_manager.update_news()
         self.news_manager.display_news()
         self.market.daily_news_impact(news)
-
-
