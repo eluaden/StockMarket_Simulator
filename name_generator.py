@@ -82,7 +82,12 @@ class NameGenerator:
             sufix = choice(NameGenerator.sufixes)
         else: sufix = ""
 
-        return f"{pre_name} {first_name} {second_name} {sufix}"
+        name = f"{first_name} {second_name}"
+        if pre_name:
+            name = f"{pre_name} {name}"
+        if sufix:
+            name = f"{name} {sufix}"
+        return name.strip()
     
     def action_ticker(name):
         """

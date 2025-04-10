@@ -1,5 +1,6 @@
 from market_sector import *
 from random import choice, randint
+from textwrap import wrap
 
 
 class NewsManager:
@@ -303,16 +304,38 @@ class NewsManager:
     
     def display_news(self):
         """
-        This function displays the daily news.
+        Prints the daily news styled like a newspaper.
         """
-        print("\n\n\n")
-        print("Daily News:")
-        print("=======================================")
-        print(f"{self.daily_news[0]}")
-        print("=======================================")
-        for news in self.daily_news[1:]:
-            print(f"{news}") 
-        print("\n\n")
+        width = 70
+        border = "=" * width
+
+        print("\n" + border)
+        print("╔" + " THE DAILY NEWS ".center(width - 2, "═") + "╗")
+        print(border)
+
+        if self.daily_news:
+            # Headline com destaque
+            headline = self.daily_news[0].upper()
+            print("\n" + "HEADLINE".center(width))
+            print("-" * width)
+            print(f"{headline}".center(width))
+            print("-" * width + "\n")
+
+            # Demais notícias como colunas
+            print("OTHER STORIES".center(width))
+            print("." * width)
+            for news in self.daily_news[1:]:
+                wrapped_lines = wrap(news, width)
+                for line in wrapped_lines:
+                    print(line)
+                print("-" * width)
+
+        print(border + "\n")
+
+
+
+
+
 
         
     

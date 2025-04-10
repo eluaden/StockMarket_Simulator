@@ -56,15 +56,18 @@ class GameManager:
         while self.game_state == "running":
             # Clear the console for better readability
             os.system('cls' if os.name == 'nt' else 'clear')
+            news = self.news_manager.update_news()
+
             self.display_menu()
-            self.news()
 
             self.handle_action()
+
+            # Update the game state
+            self.market.daily_news_impact(news)
 
             # check the game state
             self.check_game_state()
 
-    # essa função deve ser desempenhada pelo terminal_interface, aqui é provisória apenas(por isso feia)
 
     def display_menu(self):
         """
@@ -75,6 +78,7 @@ class GameManager:
         dp.display_table(self.market.get_market(), "market")
         print(f"\n{dp.separator}\n")
         dp.display_table(self.user.wallet, "wallet")
+        self.news_manager.display_news()
         print(f"\n{dp.separator}")
         print("""Press m to advance one minute, h to advance one hour, d to advance one day,
       b to buy, s to sell, q to quit\n\n""")
@@ -133,28 +137,13 @@ class GameManager:
         Check the game state for victory or defeat conditions.
         this should be an optional function to be called at the end of each turn.
         """
-        if self.user.budget <= 0:  # essa condiçao de derrota deve ser alterada
-            self.game_state = "defeat"
-            print("You have run out of budget. Game over!")
-        else:
-            if self.difficulty == 3:
-                if self.user.budget >= 5000:
-                    self.game_state = "victory"
-                    print("Congratulations! You have achieved financial freedom!")
-            elif self.difficulty == 2:
-                if self.user.budget >= 3000:
-                    self.game_state = "victory"
-                    print("Congratulations! You have achieved financial stability!")
-            elif self.difficulty == 1:
-                if self.user.budget >= 2000:
-                    self.game_state = "victory"
-                    print("Congratulations! You have achieved financial security!")
+        pass
 
-    def news(self):
+
+
+    def update_game(self):
         """
-        Display the news for the current time.
+        The functions that update the game infos.
         """
-        print("=" * 50)
-        news = self.news_manager.update_news()
-        self.news_manager.display_news()
-        self.market.daily_news_impact(news)
+        pass
+        
