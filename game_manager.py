@@ -1,4 +1,3 @@
-import os  # temporario enquanto nao temos a interface de terminal
 from datetime import time
 from market import Market
 from time_manager import TimeManager
@@ -19,12 +18,10 @@ class GameManager:
         print("Welcome to the stock market simulation!")
 
         self.game_state = "running"  # Possible states: running, victory, defeat
-        self.difficulty = self.choose_difficulty()
+        username, self.difficulty = self.start_infos()
 
         # Adjust market size based on difficulty
         self.market = Market(20 - (self.difficulty * 5))
-
-        username = input("Enter your name: ")
 
         # Adjust budget based on difficulty
         self.user = User(username, 1000 - (self.difficulty * 200))
@@ -33,20 +30,28 @@ class GameManager:
             time(hour=10, minute=0), time(hour=17, minute=0))
 
         self.news_manager = NewsManager()
+        self.news = self.news_manager.update_news()
 
-    def choose_difficulty(self):
+
+    def start_infos(self):
         """
         Choose the difficulty level of the game.
         """
-        print("Choose difficulty level (1-3):")
+        infos = []
+
+        infos.append(input("Enter your username: "))
+
         while True:
             try:
-                difficulty = int(input())
+                difficulty = int(input("Choose a number between 1 and 3: "))
                 if 1 <= difficulty <= 3:
-                    return difficulty
+                    infos.append(difficulty)
+                    break
                 print("Invalid choice. Please choose a number between 1 and 3.")
             except ValueError:
                 print("Invalid input. Please enter a number between 1 and 3.")
+
+        return infos
 
     def start_game(self):
         """
@@ -54,34 +59,40 @@ class GameManager:
         """
 
         while self.game_state == "running":
-            # Clear the console for better readability
-            os.system('cls' if os.name == 'nt' else 'clear')
-            news = self.news_manager.update_news()
-
+            
             self.display_menu()
 
             self.handle_action()
 
-            # Update the game state
-            self.market.daily_news_impact(news)
 
             # check the game state
             self.check_game_state()
+
+            if not self.time_manager.is_market_open():
+                self.day_update()
+                self.time_manager.advance_day()
+
 
 
     def display_menu(self):
         """
         Display current menu
         """
-        print("THE ULTIMATE STOCK MARKET SIMULATOR")
 
+        dp.clear_screen()
+        print("THE ULTIMATE STOCK MARKET SIMULATOR")
+        
         dp.display_table(self.market.get_market(), "market")
         print(f"\n{dp.separator}\n")
         dp.display_table(self.user.wallet, "wallet")
         self.news_manager.display_news()
         print(f"\n{dp.separator}")
-        print("""Press m to advance one minute, h to advance one hour, d to advance one day,
+        print("""Press m to advance one minute, h to advance one hour, d to advance onme day,
       b to buy, s to sell, q to quit\n\n""")
+        
+        #print provisiorio de data
+        print(f"Current time: {self.time_manager.get_formatted_time()}")
+
 
     def handle_action(self):
         """
@@ -113,19 +124,19 @@ class GameManager:
 
         elif action_choice == 'm':
             # Advance the time by one minute
-            self.market.time_manager.advance_minute()
+            self.time_manager.advance_minute()
             self.market.update_actions(1)
 
         elif action_choice == 'h':
             # Advance the time by one hour
-            self.market.time_manager.advance_hour()
+            self.time_manager.advance_hour()
             self.market.update_actions(60)
 
         elif action_choice == 'd':
             # Advance the time by one day
-            self.market.time_manager.advance_day()
-            self.market.update_actions(60 * 12)
-
+            self.day_update()
+            self.time_manager.advance_day()
+            
         elif action_choice == 'q':
             self.game_state = "quit"
             print("Thanks for playing!")
@@ -139,11 +150,21 @@ class GameManager:
         """
         pass
 
+        
+    def day_update(self):
+        """
+        the functions that update the game at the end of each day.
+        """
+        
+        self.market.update_actions(60 * 12)
+        self.market.daily_news_impact(self.news) # the news impact one day later
+        self.news = self.news_manager.update_news()
+
+        #new day animation
+        dp.new_day_animation(self.time_manager.open_time, self.time_manager.time)
 
 
-    def update_game(self):
-        """
-        The functions that update the game infos.
-        """
-        pass
+    
+
+    
         
