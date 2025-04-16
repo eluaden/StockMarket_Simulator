@@ -1,4 +1,4 @@
-from market_sector import *
+from src.toolkit.market_sector import *
 from random import choice, randint
 from textwrap import wrap
 

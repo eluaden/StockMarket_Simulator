@@ -1,9 +1,9 @@
 import random
 import datetime
-from action import Action
-from market_sector import *
-from name_generator import NameGenerator
-from time_manager import TimeManager
+from .action import Action
+from src.toolkit.market_sector import Sector
+from src.toolkit.name_generator import NameGenerator
+from src.managers.time_manager import TimeManager
 
 
 class Market:

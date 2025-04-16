@@ -1,5 +1,5 @@
 from enum import Enum
-from market_sector import MarketSectors
+from .market_sector import MarketSectors
 from random import choice, randint
 
 
