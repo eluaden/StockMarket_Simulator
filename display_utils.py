@@ -1,5 +1,8 @@
 import action
 import user
+import datetime
+from time import sleep
+import os
 separator = str()
 
 def display_table(dict: dict , type: str, alignment = "left") -> None:
@@ -75,3 +78,31 @@ def wallet_to_matriz(dict):
     for key, value in dict.items():
         matriz.append(list(value[0]) + [value[1]])
     return matriz
+
+def clear_screen(): #melhorar essa função, por que ela pisca a tela
+    """
+    Clears the terminal screen.
+    """
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
+def new_day_animation(opening: datetime, time: datetime):
+    """
+    Displays the time passing fast for the new day.
+    Args:
+        opening (datetime): The opening time of the market.
+        time (datetime): The time time of the market.
+    """
+
+    while True:
+        clear_screen()
+        print(" MARKET CLOSED")
+        print(" the day is passing...")
+        time += datetime.timedelta(minutes=1)
+        print(f" {time.strftime("%d/%m/%Y, %H:%M")}")
+        if time.time() == opening:
+            break
+        
+        sleep(0.01)
+    
+    

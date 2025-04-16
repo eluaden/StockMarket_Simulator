@@ -1,4 +1,5 @@
 import datetime
+import display_utils as dp
 
 
 class TimeManager:
@@ -30,21 +31,20 @@ class TimeManager:
         """
         self.open_time = open_time
         self.close_time = close_time
-        self.time = datetime.datetime.now()  # Initialize with the current date and time
-        if not self.is_market_open():
+        self.time = datetime.datetime.now()  # Set to a specific date and time for testing
+        if (self.is_market_open):
             self.advance_day()
+        
 
     def advance_minute(self):
         """Advance the time by one minute."""
         self.time += datetime.timedelta(minutes=1)
-        if not self.is_market_open():
-            self.advance_day()
+        
 
     def advance_hour(self):
         """Advance the time by one hour."""
         self.time += datetime.timedelta(hours=1)
-        if not self.is_market_open():
-            self.advance_day()
+        
 
     def advance_day(self):
         """Advance to the next market day."""
